@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        maven { url = uri('.reference/maven') }
         maven { url = 'https://nexus.gtnewhorizons.com/repository/public/' }
         gradlePluginPortal()
         mavenCentral()

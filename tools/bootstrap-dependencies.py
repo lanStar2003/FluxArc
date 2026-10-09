@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage exactly four official GTNH 2.8.4 development artifacts, hash verified.
+"""Stage locked official GTNH development artifacts and RFG, hash verified.
 
 Python standard library only. Writes exclusively to this project's .reference/maven.
 Does not install packages, alter a game instance, or fetch moving branches.
@@ -29,13 +29,15 @@ def valid(path, digest):
             and zipfile.is_zipfile(path))
 
 
-def stage(artifact, version, asset, digest):
-    directory = REPOSITORY / 'com/github/GTNewHorizons' / artifact / version
+def stage(artifact, version, asset, digest, group='com.github.GTNewHorizons',
+          repository=None, classifier='dev'):
+    directory = REPOSITORY / group.replace('.', '/') / artifact / version
     directory.mkdir(parents=True, exist_ok=True)
-    target = directory / (artifact + '-' + version + '-dev.jar')
+    suffix = '-' + classifier if classifier else ''
+    target = directory / (artifact + '-' + version + suffix + '.jar')
     if not valid(target, digest):
         url = 'https://github.com/GTNewHorizons/{}/releases/download/{}/{}'.format(
-            artifact, version, asset)
+            repository or artifact, version, asset)
         temporary = target.with_suffix('.jar.part')
         for attempt in range(3):
             try:
@@ -55,7 +57,7 @@ def stage(artifact, version, asset, digest):
                     temporary.unlink()
                 if attempt == 2:
                     raise
-    pom = '<project><modelVersion>4.0.0</modelVersion><groupId>com.github.GTNewHorizons</groupId>'
+    pom = '<project><modelVersion>4.0.0</modelVersion><groupId>{}</groupId>'.format(group)
     pom += '<artifactId>{}</artifactId><version>{}</version></project>'.format(artifact, version)
     (directory / (artifact + '-' + version + '.pom')).write_text(pom, encoding='utf-8')
     print('{}:{} SHA256 {}'.format(artifact, version, digest))
@@ -64,3 +66,16 @@ def stage(artifact, version, asset, digest):
 if __name__ == '__main__':
     for artifact in ARTIFACTS:
         stage(*artifact)
+    stage('retrofuturagradle', '1.4.1', 'retrofuturagradle-1.4.1.jar',
+          '78831fef9733beba60c37b306a1d084e18db68a9c93efaf20f29c3f416d07e6f',
+          group='com.gtnewhorizons', repository='RetroFuturaGradle', classifier='')
+    plugin = 'com.gtnewhorizons.retrofuturagradle'
+    marker = plugin + '.gradle.plugin'
+    directory = REPOSITORY / plugin.replace('.', '/') / marker / '1.4.1'
+    directory.mkdir(parents=True, exist_ok=True)
+    pom = ('<project><modelVersion>4.0.0</modelVersion><groupId>' + plugin + '</groupId>'
+           '<artifactId>' + marker + '</artifactId><version>1.4.1</version>'
+           '<dependencies><dependency><groupId>com.gtnewhorizons</groupId>'
+           '<artifactId>retrofuturagradle</artifactId><version>1.4.1</version>'
+           '</dependency></dependencies></project>')
+    (directory / (marker + '-1.4.1.pom')).write_text(pom, encoding='utf-8')
