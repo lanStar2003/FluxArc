@@ -74,7 +74,7 @@ if __name__ == '__main__':
     directory = REPOSITORY / plugin.replace('.', '/') / marker / '1.4.1'
     directory.mkdir(parents=True, exist_ok=True)
     pom = ('<project><modelVersion>4.0.0</modelVersion><groupId>' + plugin + '</groupId>'
-           '<artifactId>' + marker + '</artifactId><version>1.4.1</version>'
+           '<artifactId>' + marker + '</artifactId><version>1.4.1</version><packaging>pom</packaging>'
            '<dependencies><dependency><groupId>com.gtnewhorizons</groupId>'
            '<artifactId>retrofuturagradle</artifactId><version>1.4.1</version>'
            '</dependency></dependencies></project>')

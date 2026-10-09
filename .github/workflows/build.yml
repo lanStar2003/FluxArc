@@ -23,7 +23,7 @@ jobs:
       - name: Stage locked official GTNH dependencies
         run: python3 tools/bootstrap-dependencies.py
       - name: Test and produce reobfuscated mod
-        run: bash gradlew -Porg.gradle.java.installations.paths="$FLUXARC_JAVA8" --no-daemon build
+        run: bash gradlew -Porg.gradle.java.installations.paths="$FLUXARC_JAVA8" --no-daemon --info build
       - uses: actions/upload-artifact@v4
         with:
           name: FluxArc-build

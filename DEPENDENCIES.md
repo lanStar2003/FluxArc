@@ -31,7 +31,7 @@ python3 tools/bootstrap-dependencies.py
 ./gradlew -Porg.gradle.java.installations.paths=/absolute/path/to/jdk8 clean build
 ```
 
-The bootstrap script is a reproducible fallback for unreliable GTNH Maven access and is also used by CI. It downloads only the four fixed official development release artifacts listed above, verifies their recorded SHA256 and ZIP validity, and stages minimal Maven metadata with no transitive dependencies. All other build dependencies are fetched by Gradle. Existing matching files are verified and reused. No local path or preinstalled third-party jar is required for a clean CI build.
+The bootstrap script is a reproducible fallback for unreliable GTNH Maven access and is also used by CI. It downloads the four fixed official development release artifacts and the official shaded RetroFuturaGradle 1.4.1 release, verifies their recorded SHA256 and ZIP validity, and stages minimal Maven metadata. The plugin marker uses POM packaging and points to that exact RFG artifact. Other build dependencies are fetched by Gradle. Existing matching files are verified and reused. No workstation cache or preinstalled third-party jar is required for CI.
 
 On the development workstation, all writes are isolated under the task workspace. Gradle user home is `../.gradle-fluxarc`; the old global dependency cache is read-only via `GRADLE_RO_DEP_CACHE=C:/Users/windows10/.gradle/caches`. Minecraft/Forge transformation inputs were copied to that workspace cache. No existing mod or game instance is needed.
 
