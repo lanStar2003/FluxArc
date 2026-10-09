@@ -1,0 +1,30 @@
+Verification: isolated OpenGL Pbuffer, not Minecraft gameplay
+Component bounds: match final ArcBlock source; flat proxy colors instead of game textures
+Dev JAR SHA256: 44FF8B6EA17888E509DDD7E5FD8B693D3C84C6BC27F4BE2B11FC92DCAC995BA9
+States: six actual TESR mesh methods, four processing stages each
+GL_RENDERER=Intel(R) UHD Graphics 770
+GL_VERSION=4.6.0 - Build 31.0.101.3729
+PASS forge p=0.12 litPixels=77328 glError=0
+PASS forge p=0.38 litPixels=77355 glError=0
+PASS forge p=0.65 litPixels=78250 glError=0
+PASS forge p=0.94 litPixels=77369 glError=0
+PASS swarm p=0.12 litPixels=55687 glError=0
+PASS swarm p=0.38 litPixels=56097 glError=0
+PASS swarm p=0.65 litPixels=57406 glError=0
+PASS swarm p=0.94 litPixels=57657 glError=0
+PASS fold p=0.12 litPixels=74350 glError=0
+PASS fold p=0.38 litPixels=74632 glError=0
+PASS fold p=0.65 litPixels=74425 glError=0
+PASS fold p=0.94 litPixels=74262 glError=0
+PASS recycle p=0.12 litPixels=62403 glError=0
+PASS recycle p=0.38 litPixels=62416 glError=0
+PASS recycle p=0.65 litPixels=63352 glError=0
+PASS recycle p=0.94 litPixels=62115 glError=0
+PASS probe p=0.12 litPixels=56928 glError=0
+PASS probe p=0.38 litPixels=57647 glError=0
+PASS probe p=0.65 litPixels=55053 glError=0
+PASS probe p=0.94 litPixels=57282 glError=0
+PASS tactical p=0.12 litPixels=106604 glError=0
+PASS tactical p=0.38 litPixels=105985 glError=0
+PASS tactical p=0.65 litPixels=106711 glError=0
+PASS tactical p=0.94 litPixels=106033 glError=0

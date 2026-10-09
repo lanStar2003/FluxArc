@@ -1,0 +1,75 @@
+plugins {
+    id 'java-library'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.1'
+}
+
+group = 'com.fluxarc'
+version = '0.1.0'
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(8) }
+    withSourcesJar()
+}
+
+minecraft {
+    mcVersion = '1.7.10'
+    mcpMappingChannel = 'stable'
+    mcpMappingVersion = '12'
+    username = 'FluxArcDeveloper'
+}
+
+repositories {
+    // Optional locally staged, exact-version dependencies; never committed or bundled.
+    maven { url = uri('.reference/maven') }
+    maven { url = 'https://nexus.gtnewhorizons.com/repository/public/' }
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly('com.github.GTNewHorizons:GT5-Unofficial:5.09.51.482:dev') { transitive = false }
+    compileOnly('com.github.GTNewHorizons:StructureLib:1.4.23:dev') { transitive = false }
+    compileOnly('com.github.GTNewHorizons:GTNHLib:0.7.10:dev') { transitive = false }
+    compileOnly('com.github.GTNewHorizons:ModularUI:1.2.20:dev') { transitive = false }
+    testImplementation 'junit:junit:4.13.2'
+}
+
+configurations.testRuntimeClasspath.extendsFrom(configurations.compileOnly)
+configurations.testCompileClasspath.extendsFrom(configurations.compileOnly)
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.withType(Test).configureEach { testLogging { events 'passed', 'skipped', 'failed' } }
+jar { manifest { attributes('Implementation-Title': 'FluxArc', 'Implementation-Version': project.version) } }
+
+tasks.register('writeTestClasspath') {
+    description = 'Write the isolated test runtime classpath for diagnostic Java harnesses.'
+    doLast {
+        def target = layout.buildDirectory.file('test-runtime-classpath.txt').get().asFile
+        target.parentFile.mkdirs()
+        target.text = sourceSets.test.runtimeClasspath.asPath
+    }
+}
+
+sourceSets {
+    integrationTest {
+        java.srcDir 'src/integrationTest/java'
+        compileClasspath += sourceSets.main.output + sourceSets.test.compileClasspath
+        runtimeClasspath += output + compileClasspath + sourceSets.test.runtimeClasspath
+    }
+}
+
+tasks.register('nbtIntegrationTest', JavaExec) {
+    description = 'Run real tile NBT tests in an isolated Java 8 LaunchWrapper JVM.'
+    group = 'verification'
+    dependsOn tasks.named('integrationTestClasses')
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mainClass = 'ForgeNbtTestLauncher'
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+    def isolatedRun = layout.buildDirectory.dir('integration-run')
+    workingDir = isolatedRun.get().asFile
+    args isolatedRun.get().asFile.absolutePath
+    doFirst { workingDir.mkdirs() }
+}
+
+tasks.named('check') { dependsOn tasks.named('nbtIntegrationTest') }

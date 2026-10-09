@@ -1,0 +1,35 @@
+name: Build FluxArc
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+      - name: Remember Java 8 toolchain
+        run: echo "FLUXARC_JAVA8=$JAVA_HOME" >> "$GITHUB_ENV"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Stage locked official GTNH dependencies
+        run: python3 tools/bootstrap-dependencies.py
+      - name: Test and produce reobfuscated mod
+        run: bash gradlew -Porg.gradle.java.installations.paths="$FLUXARC_JAVA8" --no-daemon build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FluxArc-build
+          path: |
+            build/libs/FluxArc-*.jar
+            build/reports/tests/test/
+            docs/
+            DEPENDENCIES.md
+          if-no-files-found: error
