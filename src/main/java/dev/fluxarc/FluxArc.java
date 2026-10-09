@@ -17,7 +17,7 @@ import dev.fluxarc.tile.TileMachine;
 import dev.fluxarc.recipe.RecipeCatalog;
 import dev.fluxarc.challenge.ChallengeHooks;
 import dev.fluxarc.gui.GuiHandler;
-@Mod(modid=FluxArc.ID,name="FluxArc",version="0.1.0",dependencies="required-after:gregtech@[5.09.51.482];required-after:Forge@[10.13.4.1614,)",acceptedMinecraftVersions="[1.7.10]")
+@Mod(modid=FluxArc.ID,name="FluxArc",version="0.1.1",dependencies="required-after:gregtech;required-after:gregtech_nh@[5.09.51.482];required-after:Forge@[10.13.4.1614,)",acceptedMinecraftVersions="[1.7.10]")
 public class FluxArc {
  public static final String ID="fluxarc";
  @Mod.Instance(ID) public static FluxArc instance;

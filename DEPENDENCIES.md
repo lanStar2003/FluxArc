@@ -14,6 +14,8 @@ FluxArc targets **GT New Horizons 2.8.4**, Minecraft **1.7.10**, Forge **10.13.4
 
 The checked-in `gradle/wrapper/gradle-wrapper.jar` is the unmodified official project launcher from `https://raw.githubusercontent.com/gradle/gradle/v8.9.0/gradle/wrapper/gradle-wrapper.jar`, SHA256 `498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17`. It is not the Gradle distribution or a dependency cache; those remain excluded by `.gitignore`.
 
+At runtime the official GT 5.09.51.482 JAR exposes two Forge identities: `gregtech` has version `MC1710`, while `gregtech_nh` has version `5.09.51.482`. FluxArc requires both IDs, pins the build version on `gregtech_nh`, and preserves loading after `gregtech`. Version 0.1.0 incorrectly pinned the artifact version on the legacy ID and was rejected by Forge; 0.1.1 corrects that declaration without widening the supported GT build.
+
 The unmodified pack manifest is checked in as `gtnh-2.8.4-manifest.json`.
 Source: https://github.com/GTNewHorizons/DreamAssemblerXXL/blob/master/releases/manifests/2.8.4.json
 
@@ -31,7 +33,7 @@ python3 tools/bootstrap-dependencies.py
 ./gradlew -Porg.gradle.java.installations.paths=/absolute/path/to/jdk8 clean build
 ```
 
-The bootstrap script is a reproducible fallback for unreliable GTNH Maven access and is also used by CI. It downloads the four fixed official development release artifacts and the official shaded RetroFuturaGradle 1.4.1 release, verifies their recorded SHA256 and ZIP validity, and stages minimal Maven metadata. The plugin marker uses POM packaging and points to that exact RFG artifact. Other build dependencies are fetched by Gradle. Existing matching files are verified and reused. No workstation cache or preinstalled third-party jar is required for CI.
+The bootstrap script is a reproducible fallback for unreliable GTNH Maven access and is also used by CI. It downloads the four fixed official development release artifacts, the official production GT JAR for dependency-loading regression fixtures, and the official shaded RetroFuturaGradle 1.4.1 release. It verifies recorded SHA256 and ZIP validity and stages minimal Maven metadata. The plugin marker uses POM packaging and points to that exact RFG artifact. Other build dependencies are fetched by Gradle. Existing matching files are verified and reused. No workstation cache or preinstalled third-party jar is required for CI.
 
 On the development workstation, all writes are isolated under the task workspace. Gradle user home is `../.gradle-fluxarc`; the old global dependency cache is read-only via `GRADLE_RO_DEP_CACHE=C:/Users/windows10/.gradle/caches`. Minecraft/Forge transformation inputs were copied to that workspace cache. No existing mod or game instance is needed.
 

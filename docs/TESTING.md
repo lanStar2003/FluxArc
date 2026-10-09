@@ -1,5 +1,11 @@
 # FluxArc 验证记录
 
+## 0.1.1 启动依赖修复验证（2026-10-09）
+
+`build-0.1.1.log`：`BUILD SUCCESSFUL in 42s`。常规 Gradle 测试 14 项通过，独立 LaunchWrapper 测试 `OK (8 tests)`（原有 NBT 3 项 + 新增 Forge 依赖加载 5 项），合计 22 项。新增测试读取官方 GT 生产 JAR 的注解与元数据，实际调用 `Loader.sortModList`：旧声明抛出 `MissingModsException`，新声明成功，错误版本及缺失必需项继续被拒绝。详细根因、证据和替换步骤见 [FIX-0.1.1.md](FIX-0.1.1.md)。
+
+这是隔离的 Forge 依赖加载阶段测试，未启动完整 GTNH 客户端或专用服务器。以下为 0.1.0 实现阶段的历史验证记录。
+
 本文件区分自动逻辑测试、构建检查和真实游戏检查。自动测试或 CI 通过，不代表已在 GTNH 2.8.4 客户端或专用服务器完成游戏验证。
 
 ## 自动测试范围

@@ -1,6 +1,6 @@
 # FluxArc / 回响构装
 
-独立的 GTNH **2.8.4 / Minecraft 1.7.10** 功能多方块附加 Mod。开发版 **0.1.0**。本工程不继承或修改 FluxLite、FluxDepths、FluxEcho、ChronoLink；视觉样片也保留为独立文件。
+独立的 GTNH **2.8.4 / Minecraft 1.7.10** 功能多方块附加 Mod。开发版 **0.1.1**。本工程不继承或修改 FluxLite、FluxDepths、FluxEcho、ChronoLink；视觉样片也保留为独立文件。
 
 这是实际 Forge Mod 源码，包含六个控制器、五种结构构件、二十项显式加工/任务配方、服务端 EU 与材料处理、持久化状态和客户端 TESR。**尚未在完整 GTNH 客户端或专服中进行游戏验收，不能据此宣称可直接投入正式存档。**
 
@@ -15,7 +15,7 @@
 
 ## 安装与第一次使用
 
-1. 在**新建的隔离 GTNH 2.8.4 测试实例**中放入 `FluxArc-0.1.0.jar`；不要直接拿正式存档验证。
+1. 关闭游戏，在 GTNH 2.8.4 测试实例的 `mods` 目录移走旧 `FluxArc-0.1.0.jar`，放入 `FluxArc-0.1.1.jar`，只保留一个 FluxArc JAR。不要删除或更换原整合包的 GregTech，也不要安装 `-dev.jar`。首次使用建议在独立测试存档验证。
 2. GT 依赖锁定为 **GT5-Unofficial 5.09.51.482**。详见 [DEPENDENCIES.md](DEPENDENCIES.md)。不兼容其他 GT 版本的保证。
 3. 用 NEI 查 `FluxArc` 合成控制器和构件。先用钢板、基础电路、引力线圈、钢齿轮及活塞合成锻炉控制器。无需其他 FluxArc 机器才能合成第一台。
 4. 按 [结构逐层图](docs/STRUCTURES.md) 搭建。控制器是 `(0,0,0)`，结构固定世界朝北（负 Z）；图中净空必须保持空气。

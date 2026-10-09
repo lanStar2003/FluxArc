@@ -9,3 +9,5 @@ run/
 .classpath
 .project
 .settings/
+__pycache__/
+*.pyc

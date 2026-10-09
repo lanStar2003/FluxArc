@@ -66,6 +66,9 @@ def stage(artifact, version, asset, digest, group='com.github.GTNewHorizons',
 if __name__ == '__main__':
     for artifact in ARTIFACTS:
         stage(*artifact)
+    # Real production JAR: regression fixtures read Forge metadata without loading GT classes.
+    stage('GT5-Unofficial', '5.09.51.482', 'gregtech-5.09.51.482.jar',
+          '4ab7ce174a8f6fb7a90d8d11d56056aab2de577c36c6084b37ce890d7b1d67bf', classifier='')
     stage('retrofuturagradle', '1.4.1', 'retrofuturagradle-1.4.1.jar',
           '78831fef9733beba60c37b306a1d084e18db68a9c93efaf20f29c3f416d07e6f',
           group='com.gtnewhorizons', repository='RetroFuturaGradle', classifier='')
